@@ -1,0 +1,19 @@
+abc<test /><%
+root_path("t\"est %> #{ code '25\'#{jjj}'}") 
+#simple comment
+%>
+<%# a general comment %>
+========== Captured scriptlets below
+<%
+root_path("t\"est %> #{ code '25\'#{jjj}'}") 
+#simple comment
+%>
+
+<%# a general comment %>
+========== non-string areas extracted from scriptlets above
+
+root_path(
+
+ code 
+
+) 

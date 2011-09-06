@@ -1,0 +1,102 @@
+grammar ScriptletScannerERB
+
+  rule erb_template
+    (non_scriptlet / scriptlet)* {
+      def scriptlets
+        elements.select{ |e| e.respond_to?(:scriptlet_start) }.map(&:text_value)
+      end
+      
+      def ruby_areas(el = elements, sum = [])
+        el.each do |e|
+          if e.respond_to?(:code)
+            sum.push(e.text_value)
+          elsif e.elements && e.elements.any?
+            ruby_areas(e.elements, sum)
+          end
+        end
+        sum
+      end
+      
+      def has_system_call?(el = elements)
+        el.each do |e|
+          if e.respond_to?(:backtick_start)
+            return true
+          elsif e.elements && e.elements.any?
+            return true if has_system_call?(e.elements)
+          end
+        end
+        false
+      end
+    }
+  end
+  
+  rule non_scriptlet
+    ([^<] / '<' !'%')+
+  end
+
+  rule scriptlet
+    scriptlet_start:'<%' ruby_scriptlet? '%>'
+  end
+  
+  rule ruby_scriptlet
+    (ruby_scriptlet_code / ruby_string / ruby_comment)+
+  end
+  
+  rule ruby_scriptlet_code
+    ([^'"%#\n`] / '%' ![>q] / "\n" !"=begin\n")+ {
+      def code
+      end
+    }
+  end
+
+  rule ruby_string
+    single_quoted / double_quoted / q_non_interpolated / back_tick
+  end
+  
+  rule back_tick
+    backtick_start:'`' ([^`\\#] / '\\' . / '#' !'{' / interpolation)*  '`'
+  end
+  
+  rule q_non_interpolated
+    '%q[' ([^\]\\] / '\\' .)* ']'
+  end
+  
+  rule single_quoted
+    '\'' ([^'\\] / '\\' .)*  '\''
+  end
+  
+  rule double_quoted
+    '"' ([^"\\#] / '\\' . / '#' !'{' / interpolation)*  '"'
+  end
+  
+  rule interpolation
+    '#' ruby_block
+  end
+  
+  rule ruby_comment
+    (single_line_comment / multiline_comment)+
+  end
+  
+  rule multiline_comment
+    ("\n=begin" &"\n") ([^\n] / "\n" !'=end')* "\n=end"
+  end
+  
+  rule single_line_comment
+    '#' ([^\n%] / '%' !'>')* "\n"?
+  end
+  
+  rule ruby_block
+    '{' ruby_code? '}'
+  end
+  
+  rule ruby_code
+    (code_area / ruby_block / ruby_string)+
+  end
+
+  rule code_area
+    [^'"\{\}]+ {
+      def code
+      end
+    }
+  end
+end

@@ -1,0 +1,42 @@
+abc<test /><%
+root_path("t\"est %> #{ code '25\'#{jjj}'}") 
+#simple comment=begin
+ =begin
+test
+=begin
+ 'This is a String with %> inside a comment block'
+ "Another String with an interpolation inside a comment block #{Yeahh}"=end
+ =end
+=end
+%></b>
+<%# a general comment %>
+========== Captured scriptlets below
+<%
+root_path("t\"est %> #{ code '25\'#{jjj}'}") 
+#simple comment=begin
+ =begin
+test
+=begin
+ 'This is a String with %> inside a comment block'
+ "Another String with an interpolation inside a comment block #{Yeahh}"=end
+ =end
+=end
+%>
+
+<%# a general comment %>
+========== non-string areas extracted from scriptlets above
+
+root_path(
+
+ code 
+
+) 
+
+
+ =begin
+test
+
+
+
+========== Has some system command here?
+false

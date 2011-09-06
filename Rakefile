@@ -1,10 +1,10 @@
-require 'rake'
-require 'rake/testtask'
+ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../Gemfile', __FILE__)
+require 'bundler/setup' if File.exists?(ENV['BUNDLE_GEMFILE'])
 
-Rake::TestTask.new do |t|
-  t.libs << "test"
-  t.test_files = FileList['test/**/*.rb']
-  t.verbose = true
+require 'rake'
+require 'rspec/core/rake_task'
+
+RSpec::Core::RakeTask.new do |t|
 end
 
 desc 'Load the gem environment'
@@ -35,4 +35,4 @@ end
 # To load rake tasks on lib/task folder
 # load 'lib/tasks/task_sample.rake'
 
-task :default => :test
+task :default => :spec

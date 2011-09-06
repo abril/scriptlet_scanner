@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.platform      = Gem::Platform::RUBY
   s.summary       = "A great template parser that helps you to capture and inspect server-side scripts"
   s.require_paths = ['lib']
-  s.files         = Dir["{lib/**/*.rb,GEM_VERSION,README.md}"]
+  s.files         = Dir["{lib/**/*.rb,lib/**/*.treetop,GEM_VERSION,README.md}"]
 
   s.authors       = ["Marcelo Manzan", "Leonardo Campos"]
   s.email         = ["manzan@gmail.com", "leonardoaugusto.campos@gmail.com"]

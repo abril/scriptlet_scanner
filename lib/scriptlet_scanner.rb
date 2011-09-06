@@ -15,4 +15,8 @@ require "bundler/setup"
 
 module ScriptletScanner
   autoload :VERSION, 'scriptlet_scanner/version'
+
+  module TemplateParser
+    autoload :ERBParser, 'scriptlet_scanner/erb_parser'
+  end
 end
