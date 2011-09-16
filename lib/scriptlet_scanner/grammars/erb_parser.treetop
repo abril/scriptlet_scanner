@@ -72,7 +72,7 @@ grammar ScriptletScannerERB
   rule multiline_string
     '<<' 
       [^ \n]+ &{|s| @line_ending = s[1].text_value; true} [ \n] #stores the key to end string
-      ([^\n]* !{|s| s[0].text_value == @line_ending} "\n")* #any number of lines that are not the key to end string 
+      (([^\n#] / '#' !'{' / interpolation)* !{|s| s[0].text_value == @line_ending} "\n")* #any number of lines that are not the key to end string 
       ([^ \n]+ &{|s| s[0].text_value == @line_ending}) #must match the key to end string
   end
   
