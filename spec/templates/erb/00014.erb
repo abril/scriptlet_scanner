@@ -1,0 +1,32 @@
+<span>Não Spriptlet</span>
+f = ""
+<%
+ f = %Q{
+Esta é um String #{codigo ruby}de muitas linhas
+com algumas sequências de caracteres
+para atrapalhar como %>
+" e '
+}
+This is regular code
+%>
+========== Captured scriptlets below
+<%
+ f = %Q{
+Esta é um String #{codigo ruby}de muitas linhas
+com algumas sequências de caracteres
+para atrapalhar como %>
+" e '
+}
+This is regular code
+%>
+========== non-string areas extracted from scriptlets above
+
+ f = 
+
+codigo ruby
+
+
+This is regular code
+
+==========
+false

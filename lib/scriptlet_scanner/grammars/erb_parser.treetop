@@ -43,14 +43,14 @@ grammar ScriptletScannerERB
   end
   
   rule ruby_scriptlet_code
-    ([^'"%#\n`<] / '%' ![>q] / "\n" !"=begin\n" / '<<' ![\w])+ {
+    ([^'"%#\n`<] / '%' ![>qQ] / "\n" !"=begin\n" / '<<' ![\w])+ {
       def code
       end
     }
   end
 
   rule ruby_string
-    single_quoted / double_quoted / q_non_interpolated / back_tick / multiline_string
+    single_quoted / double_quoted / q_non_interpolated / back_tick / multiline_string / q_interpolated
   end
   
   rule back_tick
@@ -59,6 +59,10 @@ grammar ScriptletScannerERB
   
   rule q_non_interpolated
     '%q[' ([^\]\\] / '\\' .)* ']'
+  end
+  
+  rule q_interpolated
+    '%Q{' ([^\}\\#] / '\\' . / '#' !'{' / interpolation)* '}'
   end
   
   rule single_quoted
