@@ -43,7 +43,7 @@ grammar ScriptletScannerERB
   end
   
   rule ruby_scriptlet_code
-    ([^'"%#\n`<] / '%' ![>qQ] / "\n" !"=begin\n" / '<<' ![\w])+ {
+    ([^'"%#\n`<] / '%' ![>qQ] / "\n" !"=begin\n" / '<' [^<] / '<<' ![\w])+ {
       def code
       end
     }
